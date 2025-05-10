@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "gen:types": "payload generate:types",
-    "db:drop": "payload migrate:fresh"
+    "db:drop": "payload migrate:fresh",
+    "db:seed": "tsx --env-file=.env src/lib/seed.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
