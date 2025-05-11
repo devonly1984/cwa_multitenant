@@ -4,13 +4,13 @@ import {
   CategoryDropdown,
   CategoriesSidebar,
 } from "@/components/categories";
-import { CustomCategory } from "@/types";
+import { CategoriesGetManyOutput } from "@/types";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { ListFilterIcon } from "lucide-react";
 
 interface Props {
-    data:CustomCategory[];
+    data:CategoriesGetManyOutput;
 }
 const Categories = ({ data }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -58,7 +58,6 @@ useEffect(() => {
       <CategoriesSidebar
         open={isSidebarOpen}
         onOpenChange={setIsSidebarOpen}
-        data={data}
       />
       <div
         ref={measureRef}

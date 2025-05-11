@@ -1,7 +1,4 @@
-
-const HomePage = async() => {
-
-
-  return <div>Home Page</div>;
-}
-export default HomePage
+const HomePage = async () => {
+  return <>Home Page</>;
+};
+export default HomePage;

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import { ReactNode } from "react";
+import { TRPCReactProvider } from "@/trpc/client";
 
 
 export const metadata: Metadata = {
@@ -16,10 +17,8 @@ const RootLayout=({
 }>) =>{
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${dmSans.className} antialiased`}
-      >
-        {children}
+      <body className={`${dmSans.className} antialiased`}>
+        <TRPCReactProvider>{children}</TRPCReactProvider>
       </body>
     </html>
   );

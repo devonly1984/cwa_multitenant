@@ -1,21 +1,25 @@
 "use client"
 import {Sheet,SheetHeader,SheetContent,SheetTitle} from '@/components/ui/sheet'
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { CustomCategory } from "@/types";
+import { CategoriesGetManyOutput } from "@/types";
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useTRPC } from '@/trpc/client';
+import { useQuery } from '@tanstack/react-query';
 
 interface Props {
   open: boolean;
   onOpenChange: (open:boolean)=>void;
-  data: CustomCategory[];
+
 }
-const CategoriesSidebar = ({ open, onOpenChange, data }: Props) => {
+const CategoriesSidebar = ({ open, onOpenChange }: Props) => {
+  const trpc = useTRPC();
+  const {data} = useQuery(trpc.categories.getMany.queryOptions())
   const router = useRouter();
-  const [parentCategories, setParentCategories] = useState<CustomCategory[]|null>(null)
+  const [parentCategories, setParentCategories] = useState<CategoriesGetManyOutput|null>(null)
   const [selectedCategory, setSelectedCategory] = useState<
-    CustomCategory | null
+    CategoriesGetManyOutput[1] | null
   >(null);
   const currentCategories = parentCategories ?? data ?? [];
   const handleOpenChange = (open:boolean)=>{
@@ -23,17 +27,18 @@ const CategoriesSidebar = ({ open, onOpenChange, data }: Props) => {
     setParentCategories(null);
     onOpenChange(open);
   }
-  const handleCategoryClick = (category: CustomCategory) => {
-    if (category.subcategories && category.subcategories.length> 0) {
-      setParentCategories(category.subcategories as CustomCategory[]);
+  const handleCategoryClick = (category: CategoriesGetManyOutput[1]) => {
+    if (category.subcategories && category.subcategories.length > 0) {
+      setParentCategories(
+        category.subcategories as CategoriesGetManyOutput
+      );
       setSelectedCategory(category);
-
-    } else {  
-      if (parentCategories && selectedCategory){
+    } else {
+      if (parentCategories && selectedCategory) {
         router.push(`/${selectedCategory.slug}/${category.slug}`);
       } else {
-        if (category.slug==='all') {
-          router.push('/')
+        if (category.slug === "all") {
+          router.push("/");
         } else {
           router.push(`/${category.slug}`);
         }
