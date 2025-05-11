@@ -6,6 +6,7 @@ import configPromise from '@payload-config'
 import { ReactNode } from "react"
 import SearchFilters from "@/components/shared/SearchFilters";
 import { Category } from "@/payload-types";
+import { CustomCategory } from "@/types";
 interface Props {
     children: ReactNode
 }
@@ -22,8 +23,9 @@ const HomeLayout = async ({ children }: Props) => {
         exists: false,
       },
     },
+    sort: "name",
   });
-  const formattedData = data.docs.map((doc) => ({
+  const formattedData: CustomCategory[] = data.docs.map((doc) => ({
     ...doc,
     subcategories: (doc.subcategories?.docs ?? []).map((doc) => ({
       ...(doc as Category),
