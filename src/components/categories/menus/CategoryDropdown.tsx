@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useDropdownPosition } from "@/hooks/useDropdownPosition";
 import { cn } from "@/lib/utils";
 import { useRef, useState } from "react";
-import {SubCategoryMenu} from "@/components/categories";
+import {SubCategoryMenu} from "@/components";
 import { CategoriesGetManyOutput } from "@/types";
 import Link from "next/link";
 

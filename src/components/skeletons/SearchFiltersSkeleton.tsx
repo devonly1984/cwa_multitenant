@@ -1,4 +1,4 @@
-import { SearchInput } from "../search"
+import { SearchInput } from "@/components";
 
 const SearchFiltersSkeleton = () => {
   return (
@@ -12,5 +12,5 @@ const SearchFiltersSkeleton = () => {
       </div>
     </div>
   );
-}
-export default SearchFiltersSkeleton
+};
+export default SearchFiltersSkeleton;

@@ -2,10 +2,10 @@
 import { navbarItems, poppins } from "@/constants";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import NavbarItem from "./NavbarItem";
+import { NavbarItem, MobileSidebar } from "@/components";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import MobileSidebar from "./MobileSidebar";
+
 import { useState } from "react";
 import { MenuIcon } from "lucide-react";
 import { useTRPC } from "@/trpc/client";

@@ -1,20 +1,20 @@
-import Footer from "@/components/home/footer/Footer";
-import Navbar from "@/components/home/navbars/Navbar";
-
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
-import { ReactNode, Suspense } from "react"
-import { SearchFilters } from "@/components/search";
+import { ReactNode, Suspense } from "react";
+import {
+  SearchFilters,
+  SearchFiltersSkeleton,
+  HomeFooter,
+  Navbar,
+} from "@/components";
 import { getQueryClient, trpc } from "@/trpc/server";
-import SearchFiltersSkeleton from "@/components/skeletons/SearchFiltersSkeleton";
 
 interface Props {
-    children: ReactNode
+  children: ReactNode;
 }
 const HomeLayout = async ({ children }: Props) => {
-  
- const queryClient = getQueryClient();
- void queryClient.prefetchQuery(trpc.categories.getMany.queryOptions());
-  
+  const queryClient = getQueryClient();
+  void queryClient.prefetchQuery(trpc.categories.getMany.queryOptions());
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -24,8 +24,8 @@ const HomeLayout = async ({ children }: Props) => {
         </Suspense>
       </HydrationBoundary>
       <main className="flex-1 bg-[#F4F4F0]">{children}</main>
-      <Footer />
+      <HomeFooter />
     </div>
   );
 };
-export default HomeLayout
+export default HomeLayout;

@@ -3,25 +3,27 @@ import { useEffect, useRef, useState } from "react";
 import {
   CategoryDropdown,
   CategoriesSidebar,
-} from "@/components/categories";
+} from "@/components";
 import { CategoriesGetManyOutput } from "@/types";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { ListFilterIcon } from "lucide-react";
+import { useParams } from "next/navigation";
 
 interface Props {
     data:CategoriesGetManyOutput;
 }
 const Categories = ({ data }: Props) => {
+  const params = useParams();
   const containerRef = useRef<HTMLDivElement>(null);
   const measureRef = useRef<HTMLDivElement>(null);
   const viewAllRef = useRef<HTMLDivElement>(null);
   const [visibleCount, setVisibleCount] = useState(data.length)
 const [isAnyHovered, setIsAnyHovered] = useState(false);
 const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-const acitveCategory = 'all';
+const categoryParams = params.category as string;
+const acitveCategory = categoryParams || "all";
 const activeCategoryIndex = data.findIndex(
-  
   (cat) => cat.slug === acitveCategory
 );
 const isActiveCategoryHidden =
@@ -96,6 +98,7 @@ useEffect(() => {
         })}
         <div className="shrink-0" ref={viewAllRef}>
           <Button
+            variant={"elevated"}
             className={cn(
               "h-11 px-4 bg-transparent border-transparent rounded-full hover:bg-white hover:border-primary text-black",
               isActiveCategoryHidden &&
