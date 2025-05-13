@@ -1,12 +1,9 @@
-import { AUTH_COOKIE } from "@/constants/auth.constants";
+import { generateAuthCookie } from "@/lib/authUtils";
 import { loginSchema } from "@/lib/schemas/loginSchema";
 import { registerSchema } from "@/lib/schemas/registerSchema";
 import { createTRPCRouter, databaseProcedure } from "@/trpc/init";
 import { TRPCError } from "@trpc/server";
-import {
-  headers as getHeaders,
-  cookies as getCookies,
-} from "next/headers";
+import { headers as getHeaders } from "next/headers";
 
 export const authRouter = createTRPCRouter({
   session: databaseProcedure.query(async ({ ctx }) => {
@@ -19,15 +16,15 @@ export const authRouter = createTRPCRouter({
     .input(registerSchema)
     .mutation(async ({ ctx, input }) => {
       const existingData = await ctx.payload.find({
-        collection:'users',
+        collection: "users",
         limit: 1,
         where: {
           username: {
-            equals: input.username
-          }
-        }
-      })
-      const existingUser = existingData.docs[0]
+            equals: input.username,
+          },
+        },
+      });
+      const existingUser = existingData.docs[0];
       if (existingUser) {
         throw new TRPCError({
           code: "BAD_REQUEST",
@@ -56,15 +53,9 @@ export const authRouter = createTRPCRouter({
           message: "Failed to login",
         });
       }
-      const cookies = await getCookies();
-      cookies.set({
-        name: AUTH_COOKIE,
+      await generateAuthCookie({
+        prefix: ctx.payload.config.cookiePrefix,
         value: data.token,
-        httpOnly: true,
-        path: "/",
-        //sameSite: "none",
-        //domain:""
-        //TODO:Cross Domain cookie sharing user.
       });
     }),
   login: databaseProcedure
@@ -83,20 +74,11 @@ export const authRouter = createTRPCRouter({
           message: "Failed to login",
         });
       }
-      const cookies = await getCookies();
-      cookies.set({
-        name: AUTH_COOKIE,
+      await generateAuthCookie({
+        prefix: ctx.payload.config.cookiePrefix,
         value: data.token,
-        httpOnly: true,
-        path: "/",
-        //sameSite: "none",
-        //domain:""
-        //TODO:Cross Domain cookie sharing user.
       });
       return data;
     }),
-    logout: databaseProcedure.mutation(async()=>{
-      const cookies = await getCookies();
-      cookies.delete(AUTH_COOKIE);
-    })
+
 });
