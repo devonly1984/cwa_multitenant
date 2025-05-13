@@ -3,6 +3,7 @@ import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import { ReactNode } from "react";
 import { TRPCReactProvider } from "@/trpc/client";
+import { Toaster } from "sonner";
 
 
 export const metadata: Metadata = {
@@ -18,7 +19,10 @@ const RootLayout=({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${dmSans.className} antialiased`}>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+        <TRPCReactProvider>
+          {children}
+          <Toaster />
+        </TRPCReactProvider>
       </body>
     </html>
   );
