@@ -4,7 +4,7 @@ import "./globals.css";
 import { ReactNode } from "react";
 import { TRPCReactProvider } from "@/trpc/client";
 import { Toaster } from "sonner";
-
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
 
 export const metadata: Metadata = {
   title: "Multi Tenant ECommerce",
@@ -19,10 +19,12 @@ const RootLayout=({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${dmSans.className} antialiased`}>
+        <NuqsAdapter>
         <TRPCReactProvider>
           {children}
           <Toaster />
         </TRPCReactProvider>
+        </NuqsAdapter>
       </body>
     </html>
   );

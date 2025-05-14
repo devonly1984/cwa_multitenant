@@ -6,14 +6,22 @@ interface Props {
     category?:string;
 }
 const ProductList = ({category}:Props) => {
-    
-    const trpc = useTRPC();
-    const { data } = useSuspenseQuery(
-      trpc.products.getMany.queryOptions({
-        categorySlug: category,
-      })
-    );
+  const trpc = useTRPC();
+  const { data } = useSuspenseQuery(
+    trpc.products.getMany.queryOptions({
+      categorySlug: category,
+    })
+  );
 
-  return <div>ProductList {JSON.stringify(data, null, 2)}</div>;
+  return (
+    <div className="grid gird-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+      {data.docs.map((product) => (
+        <div className="border rounded-md bg-white p-4" key={product.id}>
+          <h2 className="text-xl font-medium">{product.name}</h2>
+          <p>${product.price}</p>
+        </div>
+      ))}
+    </div>
+  );
 }
 export default ProductList

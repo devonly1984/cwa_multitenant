@@ -1,32 +1,37 @@
-"use client"
-import {Sheet,SheetHeader,SheetContent,SheetTitle} from '@/components/ui/sheet'
+"use client";
+import {
+  Sheet,
+  SheetHeader,
+  SheetContent,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { CategoriesGetManyOutput } from "@/types";
-import { useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { useTRPC } from '@/trpc/client';
-import { useQuery } from '@tanstack/react-query';
+import { useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useTRPC } from "@/trpc/client";
+import { useQuery } from "@tanstack/react-query";
 
 interface Props {
   open: boolean;
-  onOpenChange: (open:boolean)=>void;
-
+  onOpenChange: (open: boolean) => void;
 }
 const CategoriesSidebar = ({ open, onOpenChange }: Props) => {
   const trpc = useTRPC();
-  const {data} = useQuery(trpc.categories.getMany.queryOptions())
+  const { data } = useQuery(trpc.categories.getMany.queryOptions());
   const router = useRouter();
-  const [parentCategories, setParentCategories] = useState<CategoriesGetManyOutput|null>(null)
+  const [parentCategories, setParentCategories] =
+    useState<CategoriesGetManyOutput | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<
     CategoriesGetManyOutput[1] | null
   >(null);
   const currentCategories = parentCategories ?? data ?? [];
-  const handleOpenChange = (open:boolean)=>{
+  const handleOpenChange = (open: boolean) => {
     setSelectedCategory(null);
     setParentCategories(null);
     onOpenChange(open);
-  }
+  };
   const handleCategoryClick = (category: CategoriesGetManyOutput[1]) => {
     if (category.subcategories && category.subcategories.length > 0) {
       setParentCategories(
@@ -46,12 +51,12 @@ const CategoriesSidebar = ({ open, onOpenChange }: Props) => {
       handleOpenChange(false);
     }
   };
-  const handleBackClick = ()=>{
+  const handleBackClick = () => {
     if (parentCategories) {
       setParentCategories(null);
       setSelectedCategory(null);
     }
-  }
+  };
   const backgroundColor = selectedCategory?.color || "white";
   return (
     <Sheet open={open} onOpenChange={handleOpenChange}>
@@ -91,4 +96,4 @@ const CategoriesSidebar = ({ open, onOpenChange }: Props) => {
     </Sheet>
   );
 };
-export default CategoriesSidebar
+export default CategoriesSidebar;
