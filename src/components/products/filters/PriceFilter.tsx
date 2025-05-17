@@ -15,6 +15,16 @@ const PriceFilter = ({
   onMinPriceChange,
   onMaxPriceChange,
 }: Props) => {
+  const handleMinPriceChange = (e:ChangeEvent<HTMLInputElement>)=>{
+    const numericValue = e.target.value.replace(/[^0-9.]/g, "");
+    onMinPriceChange(numericValue);
+
+  }
+  const handleMaxPriceChange = (e:ChangeEvent<HTMLInputElement>)=>{
+        const numericValue = e.target.value.replace(/[^0-9.]/g, "");
+
+        onMaxPriceChange(numericValue);
+  }
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-col gap-2">
@@ -23,16 +33,16 @@ const PriceFilter = ({
           type="text"
           placeholder="$0"
           value={minPrice ? formatAsCurrency(minPrice) : ""}
-          onChange={() => {}}
+          onChange={handleMinPriceChange}
         />
       </div>
       <div className="flex flex-col gap-2">
         <Label className="font-medium text-base">Maximum Price</Label>
         <Input
           type="text"
-          placeholder="&infini;"
+          placeholder="&infin;"
           value={maxPrice ? formatAsCurrency(maxPrice) : ""}
-          onChange={() => {}}
+          onChange={handleMaxPriceChange}
         />
       </div>
     </div>
