@@ -1,6 +1,5 @@
 "use client"
 import { Button } from "@/components/ui/button";
-import { useDropdownPosition } from "@/hooks/useDropdownPosition";
 import { cn } from "@/lib/utils";
 import { useRef, useState } from "react";
 import {SubCategoryMenu} from "@/components";
@@ -19,7 +18,6 @@ const CategoryDropdown = ({
 }: Props) => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
-    const {getDropdownPosition} = useDropdownPosition(dropdownRef);
     const onMouseEnter = ()=>{
         if (category.subcategories) {
             setIsOpen(true);
@@ -33,7 +31,6 @@ const CategoryDropdown = ({
         setIsOpen(!isOpen);
       }
     }
-    const dropdownPosition  = getDropdownPosition();
   return (
     <div
       className="relative "
@@ -68,7 +65,7 @@ const CategoryDropdown = ({
       <SubCategoryMenu
         category={category}
         isOpen={isOpen}
-        position={dropdownPosition}
+       
       />
     </div>
   );

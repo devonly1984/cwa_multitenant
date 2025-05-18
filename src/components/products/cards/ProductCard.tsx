@@ -61,7 +61,7 @@ const ProductCard = ({
         <div className="p-4">
           <div className="relative px-2 py-1 border bg-pink-400 w-fit">
             <p className="text-sm font-medium">
-              $
+             
               {new Intl.NumberFormat("en-US", {
                 style: "currency",
                 currency: "USD",

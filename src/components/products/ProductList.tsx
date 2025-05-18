@@ -9,8 +9,9 @@ import { InboxIcon } from "lucide-react";
 
 interface Props {
     category?:string;
+    tenantSlug?:string;
 }
-const ProductList = ({category}:Props) => {
+const ProductList = ({category,tenantSlug}:Props) => {
     const [filters] = useProductFilters();
   const trpc = useTRPC();
   const { data, hasNextPage, isFetchingNextPage, fetchNextPage } =
@@ -20,6 +21,7 @@ const ProductList = ({category}:Props) => {
           categorySlug: category,
           ...filters,
           limit: DEFAULT_LIMIT,
+          tenantSlug,
         },
         {
           getNextPageParam: (lastPage) => {
@@ -49,8 +51,8 @@ if (data.pages?.[0]?.docs.length===0) {
               id={product.id}
               name={product.name}
               imageUrl={product.image?.url}
-              authorUsername="Steve"
-              authorImageUrl={undefined}
+              authorUsername={product.tenant?.name}
+              authorImageUrl={product.tenant.image?.url}
               reviewRating={3}
               reviewCount={5}
               price={product.price}
