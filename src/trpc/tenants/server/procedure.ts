@@ -1,4 +1,5 @@
 
+import { Media, Tenant } from "@/payload-types";
 import { createTRPCRouter, databaseProcedure } from "@/trpc/init";
 import { TRPCError } from "@trpc/server";
 
@@ -13,6 +14,7 @@ export const tenantRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const tenants = await ctx.payload.find({
         collection: "tenants",
+        depth: 1,
         where: {
           slug: {
             equals: input.slug,
@@ -23,12 +25,12 @@ export const tenantRouter = createTRPCRouter({
       });
       const individualTenant = tenants.docs[0];
 
-      if (!tenants) {
+      if (!individualTenant) {
         throw new TRPCError({
           code: "NOT_FOUND",
           message: "Tenant not found",
         });
       }
-      return individualTenant;
+      return individualTenant as Tenant & { image: Media | null };
     }),
 });

@@ -7,7 +7,7 @@ import { Poppins } from "next/font/google";
         weight: ['700']
     })
 const TenantFooter = () => {
-  console.log("TenantFooter");
+ 
   return (
     <footer className=" border-t  font-medium bg-white">
       <div className="max-w-(--breakpoint-xl) mx-auto flex items-center h-full px-4 lg:px-12 gap-2 py-6">
@@ -19,7 +19,9 @@ const TenantFooter = () => {
                 "text-2xl font-semibold",
                 footerPoppins.className
               )}
-            ></span>
+            >
+              funroad
+            </span>
           </Link>
         </p>
       </div>
