@@ -22,3 +22,11 @@ export const formatAsCurrency = (value: string) => {
 export const generateTenantUrl = (slug: string) => {
   return `/tenants/${slug}`;
 };
+
+export const formatCurrency = (value:number|string)=>{
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+  }).format(Number(value));
+}

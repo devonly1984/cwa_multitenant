@@ -32,14 +32,14 @@ export const Users: CollectionConfig = {
       unique: true,
     },
     {
-      admin: {
-        position: "sidebar",
-      },
       name: "roles",
       type: "select",
       defaultValue: ["user"],
       hasMany: true,
       options: ["super-admin", "user"],
+      admin: {
+        position: "sidebar",
+      },
     },
     {
       ...defaultTenantAraryField,

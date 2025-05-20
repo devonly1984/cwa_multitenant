@@ -70,7 +70,6 @@ export const productsRouter = createTRPCRouter({
           ...doc,
           subcategories: (doc.subcategories?.docs ?? []).map((doc) => ({
             ...(doc as Category),
-         
           })),
         }));
         const subcategories = [];
@@ -107,5 +106,24 @@ export const productsRouter = createTRPCRouter({
           tenant: doc.tenant as Tenant & { image: Media | null },
         })),
       };
+    }),
+  getOne: databaseProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .query(async ({ ctx,input }) => {
+      const product = await ctx.payload.findByID({
+        collection: "products",
+        id: input.id,
+      });
+      return {
+        ...product,
+        image: product.image as Media | null,
+        cover: product.cover as Media | null,
+        tenant: product.tenant as Tenant & { image: Media | null },
+      };
+
     }),
 });
