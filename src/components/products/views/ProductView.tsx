@@ -1,4 +1,5 @@
 "use client"
+import dynamic from 'next/dynamic'
 import StarRating from "@/components/shared/StarRating";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -9,7 +10,12 @@ import { LinkIcon, StarIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Fragment } from "react";
-
+const CartButton = dynamic(
+  () => import("@/components/shared/CartButton"),
+  {
+    ssr: false,
+  }
+);
 interface ProductViewProps {
     productId:string;
     tenantSlug:string;
@@ -26,7 +32,7 @@ const ProductView = ({ productId, tenantSlug }: ProductViewProps) => {
       <div className="border rounded-sm bg-white overflow-hidden">
         <div className="relative aspect-[3.9] border-b">
           <Image
-            src={data.image?.url || `/bg-auth.png`}
+            src={data.cover?.url || `/bg-auth.png`}
             alt={data.name}
             fill
             className="object-cover"
@@ -90,12 +96,10 @@ const ProductView = ({ productId, tenantSlug }: ProductViewProps) => {
             <div className="border-t lg:border-t-0 lg:border-l h-full">
               <div className="flex flex-col gap-4 p-6 border-b">
                 <div className="flex flex-row items-ceter gap-2">
-                  <Button
-                    variant={"elevated"}
-                    className="flex-1 bg-pink-400"
-                  >
-                    Add to Cart
-                  </Button>
+                  <CartButton
+                    productId={productId}
+                    tenantSlug={tenantSlug}
+                  />
                   <Button
                     className="size-12"
                     variant={"elevated"}
@@ -117,7 +121,7 @@ const ProductView = ({ productId, tenantSlug }: ProductViewProps) => {
                   <div className="flex items-center gap-x-1 font-medium">
                     <StarIcon className="size-4 fill-black" />
                     <p>({5})</p>
-                    <p className="text-base">({3})</p>
+                    <p className="text-base">({3}) ratings</p>
                   </div>
                 </div>
                 <div className="grid grid-cols-[auto_1fr_auto] gap-3 mt-4 ">
