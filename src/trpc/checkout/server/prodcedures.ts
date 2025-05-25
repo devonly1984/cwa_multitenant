@@ -1,6 +1,4 @@
-
 import { stripe } from "@/lib/stripe";
-
 import {  Media, Tenant } from "@/payload-types";
 import { createTRPCRouter, databaseProcedure, protectedProdure } from "@/trpc/init";
 import { CheckoutMetadata, ProductMetadata } from "@/types";
@@ -48,7 +46,7 @@ export const checkoutRouter = createTRPCRouter({
   purchase: protectedProdure
     .input(
       z.object({
-        productIds: z.array(z.string().min(1)),
+        productIds: z.array(z.string()).min(1),
         tenantSlug: z.string().min(1),
       })
     )
@@ -71,7 +69,7 @@ export const checkoutRouter = createTRPCRouter({
           ],
         },
       });
-      if (products.totalDocs !== input.productIds.length){
+      if (products.totalDocs !== input.productIds.length) {
         throw new TRPCError({
           code: "NOT_FOUND",
           message: "Products not found",
@@ -111,25 +109,25 @@ export const checkoutRouter = createTRPCRouter({
             },
           },
         }));
-        const checkout = await stripe.checkout.sessions.create({
-          customer_email: ctx.session.user.email,
-          success_url: `${process.env.NEXT_PUBLIC_APP_URL}/tenants/${input.tenantSlug}/checkout?success=true`,
-          cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/tenants/${input.tenantSlug}/checkout?cancel=true`,
-          mode: "payment",
-          line_items: lineItems,
-          invoice_creation: {
-            enabled: true,
-          },
-          metadata: {
-            userId: ctx.session.user.id,
-          } as CheckoutMetadata,
+      const checkout = await stripe.checkout.sessions.create({
+        customer_email: ctx.session.user.email,
+        success_url: `${process.env.NEXT_PUBLIC_APP_URL}/tenants/${input.tenantSlug}/checkout?success=true`,
+        cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/tenants/${input.tenantSlug}/checkout?cancel=true`,
+        mode: "payment",
+        line_items: lineItems,
+        invoice_creation: {
+          enabled: true,
+        },
+        metadata: {
+          userId: ctx.session.user.id,
+        } as CheckoutMetadata,
+      });
+      if (!checkout.url) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to create checkout session url",
         });
-        if (!checkout.url) {
-          throw new TRPCError({
-            code: "INTERNAL_SERVER_ERROR",
-            message: "Failed to create checkout session url",
-          });
-        }
-        return { url: checkout.url };
+      }
+      return { url: checkout.url };
     }),
 });

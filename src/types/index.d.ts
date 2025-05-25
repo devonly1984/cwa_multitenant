@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { inferRouterOutputs } from "@trpc/server";
 import type { AppRouter } from "@/trpc/routers/_app";
+import Stripe from "stripe";
 export interface NavbarItems {
   href: string;
   children: ReactNode;
@@ -24,3 +25,10 @@ export type CheckoutMetadata = {
   userId:string;
   
 }
+export type ExpandedLineItem = Stripe.LineItem & {
+  price: Stripe.Price & {
+    product: Stripe.Product & {
+      metadata: ProductMetadata;
+    };
+  };
+};
