@@ -1,7 +1,7 @@
 "use client"
 import useCart from '@/components/checkout/store/useCart'
 import {cn,generateTenantUrl} from '@/lib/utils';
-import { Button } from '../ui/button';
+import { Button } from "@/components/ui/button";
 import Link from 'next/link';
 import { ShoppingCartIcon } from 'lucide-react';
 interface CheckoutButtonProps{
@@ -22,8 +22,9 @@ const CheckoutButton = ({
       asChild
       className={cn("bg-white", className)}
     >
-      <ShoppingCartIcon /> {totalItems > 0 ? totalItems : ""}
-      <Link href={`${generateTenantUrl(tenantSlug)}/checkout`}></Link>
+      <Link href={`${generateTenantUrl(tenantSlug)}/checkout`}>
+        <ShoppingCartIcon /> {totalItems > 0 ? totalItems : ""}
+      </Link>
     </Button>
   );
 };

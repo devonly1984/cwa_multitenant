@@ -58,7 +58,6 @@ const useCartStore = create<CartState>()(
       getCartByTenant: (tenantSlug) =>
         get().tenantCarts[tenantSlug]?.productIds || [],
     }),
-
     {
       name: "funroad-cart",
       storage: createJSONStorage(() => window.localStorage),

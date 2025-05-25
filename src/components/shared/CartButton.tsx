@@ -1,6 +1,6 @@
 "use client"
 import useCart from "../checkout/store/useCart";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 interface CartButtonProps {
     tenantSlug: string;

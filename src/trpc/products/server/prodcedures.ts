@@ -1,23 +1,12 @@
-import { DEFAULT_LIMIT } from "@/constants";
-import { sortValues } from "@/hooks/searchParamsServer";
+
+import { productSchema } from "@/lib/schemas/productShema";
 import { Category, Media, Tenant } from "@/payload-types";
 import { createTRPCRouter, databaseProcedure } from "@/trpc/init";
 import { Sort, Where } from "payload";
 import z from 'zod';
 export const productsRouter = createTRPCRouter({
   getMany: databaseProcedure
-    .input(
-      z.object({
-        cursor: z.number().default(1),
-        limit: z.number().default(DEFAULT_LIMIT),
-        categorySlug: z.string().nullable().optional(),
-        minPrice: z.string().nullable().optional(),
-        maxPrice: z.string().nullable().optional(),
-        tags: z.array(z.string()).nullable().optional(),
-        sort: z.enum(sortValues).nullable().optional(),
-        tenantSlug: z.string().nullable().optional(),
-      })
-    )
+    .input(productSchema)
     .query(async ({ ctx, input }) => {
       const where: Where = {
         price: {},
@@ -113,7 +102,7 @@ export const productsRouter = createTRPCRouter({
         id: z.string(),
       })
     )
-    .query(async ({ ctx,input }) => {
+    .query(async ({ ctx, input }) => {
       const product = await ctx.payload.findByID({
         collection: "products",
         id: input.id,
@@ -124,6 +113,5 @@ export const productsRouter = createTRPCRouter({
         cover: product.cover as Media | null,
         tenant: product.tenant as Tenant & { image: Media | null },
       };
-
     }),
 });

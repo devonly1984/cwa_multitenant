@@ -13,3 +13,14 @@ export type CategoriesGetManyOutput =
 
 export type CategoriesGetManyOutputSingle = CategoriesGetManyOutput[0]
 export type ProductsGetManyOutput = inferRouterOutputs<AppRouter>['products']['getMany']
+export type ProductMetadata = {
+  stripeAccountId: string;
+  id: string;
+  name: string;
+  price: number;
+};
+
+export type CheckoutMetadata = {
+  userId:string;
+  
+}
