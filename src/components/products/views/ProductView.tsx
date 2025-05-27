@@ -14,19 +14,30 @@ const CartButton = dynamic(
   () => import("@/components/shared/CartButton"),
   {
     ssr: false,
+    loading: () => (
+      <Button disabled className="flex-1 bg-pink-400">
+        Add to cart
+      </Button>
+    ),
   }
 );
 interface ProductViewProps {
-    productId:string;
-    tenantSlug:string;
+  productId: string;
+  tenantSlug: string;
+
 }
-const ProductView = ({ productId, tenantSlug }: ProductViewProps) => {
-    const trpc = useTRPC();
-    const { data } = useSuspenseQuery(
-      trpc.products.getOne.queryOptions({
-        id: productId,
-      })
-    );
+const ProductView = ({
+  productId,
+  tenantSlug,
+
+}: ProductViewProps) => {
+  const trpc = useTRPC();
+  const { data } = useSuspenseQuery(
+    trpc.products.getOne.queryOptions({
+      id: productId,
+    })
+  );
+
   return (
     <div className="px-4 lg:px-12 py-10">
       <div className="border rounded-sm bg-white overflow-hidden">
@@ -99,7 +110,9 @@ const ProductView = ({ productId, tenantSlug }: ProductViewProps) => {
                   <CartButton
                     productId={productId}
                     tenantSlug={tenantSlug}
+                    isPurchased={data.isPurchased}
                   />
+
                   <Button
                     className="size-12"
                     variant={"elevated"}

@@ -7,8 +7,6 @@ export interface NavbarItems {
   children: ReactNode;
 }
 
-
-
 export type CategoriesGetManyOutput =
   inferRouterOutputs<AppRouter>["categories"]["getMany"];
 

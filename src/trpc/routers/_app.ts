@@ -6,6 +6,7 @@ import { productsRouter } from "../products/server/prodcedures";
 import { tagsRouter } from "../tags/server/procedures";
 import { tenantRouter } from "../tenants/server/procedure";
 import { checkoutRouter } from "../checkout/server/prodcedures";
+import { libraryRouter } from "../library/server/prodcedures";
 export const appRouter = createTRPCRouter({
   categories: categoriesRouter,
   auth: authRouter,
@@ -13,6 +14,7 @@ export const appRouter = createTRPCRouter({
   tags: tagsRouter,
   tenants: tenantRouter,
   checkout: checkoutRouter,
+  library: libraryRouter,
 });
 // export type definition of API
 export type AppRouter = typeof appRouter;
