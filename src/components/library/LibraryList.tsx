@@ -1,12 +1,10 @@
-"use client"
-import { useTRPC } from "@/trpc/client"
-import { useSuspenseInfiniteQuery,  } from "@tanstack/react-query";
+"use client";
+import { useTRPC } from "@/trpc/client";
+import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { DEFAULT_LIMIT } from "@/constants";
 import { Button } from "@/components/ui/button";
 import { InboxIcon } from "lucide-react";
 import LibraryCard from "./cards/LibraryCard";
-
-
 
 const LibraryList = () => {
   const trpc = useTRPC();
@@ -25,19 +23,18 @@ const LibraryList = () => {
         }
       )
     );
-if (data.pages?.[0]?.docs.length===0) {
-  return (
-    <div className="border border-black border-dashed flex items-center justify-center p-8 flex-col gap-y-4 bg-white w-full rounded-lg">
-      <InboxIcon className=""/>
-      <p className="text-base font-medium">No Products Found</p>
-    </div>
-  )
-}
+  if (data.pages?.[0]?.docs.length === 0) {
+    return (
+      <div className="border border-black border-dashed flex items-center justify-center p-8 flex-col gap-y-4 bg-white w-full rounded-lg">
+        <InboxIcon className="" />
+        <p className="text-base font-medium">No Products Found</p>
+      </div>
+    );
+  }
   return (
     <>
       <div
-        className="
-          grid gird-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4"
+        className="grid gird-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4"
       >
         {data.pages
           .flatMap((page) => page.docs)
@@ -51,7 +48,6 @@ if (data.pages?.[0]?.docs.length===0) {
               tenantImageUrl={product.tenant.image?.url}
               reviewRating={3}
               reviewCount={5}
-              
             />
           ))}
       </div>
@@ -69,5 +65,5 @@ if (data.pages?.[0]?.docs.length===0) {
       </div>
     </>
   );
-}
+};
 export default LibraryList;
